@@ -5,29 +5,34 @@ int xinc = 6;
 int oldy = y;
 int oldx = x;
 int c = xinc;
-int bounces = 0;
-int b = int(random(2,6));
-int [] colors = {#012A36, #29274C, #7E52A0, #D295BF, #E6BCCD};
+int [] colors = {#FF0000, #FFA500, #FFFF00, #00FF00, #0000FF, #A020F0};
+ArrayList<Wacky> circleList = new ArrayList<Wacky>();
 void setup() {
 	size(1000,1000);
 	background(0,0,0);
 }
 
 void draw() {
-	if (b > bounces){
-		updateX();
-		updateY();
-		int r = int(random(0, 10));
-		if (r == 0){
-			slope = newslope();
-		}
-		for (int i = 0; i <= colors.length-1; i++){
-			stroke(colors[i]);
-			line(oldx, oldy+i*5, x, y+i*5);
-		}
-		oldy = y;
-		oldx = x;
+	fill(0,0,0,20);
+	rect(0, 0, width, height, 10);
+	updateX();
+	updateY();
+	int r = int(random(0, 35));
+	if (r == 0){
+		stroke(0,0,0);
+		Wacky placeHolder = new Wacky(x,y);
+		circleList.add(placeHolder);
+		slope = newslope();
 	}
+	for (int i = 0; i <= colors.length-1; i++){
+		stroke(colors[i]);
+		line(oldx, oldy+i*5, x, y+i*5);
+	}
+	for (Wacky i: circleList){
+		i.drawAndShrink();
+	}
+	oldy = y;
+	oldx = x;
 }
 
 int newslope() {
@@ -37,11 +42,9 @@ int newslope() {
 void updateX(){
 	if (oldx >= 1000){
 		c = -xinc;
-		bounces++;
 	}
 	else if (oldx <= 0){
 		c = xinc;
-		bounces++;
 	}
 	x+=c;
 }
@@ -51,4 +54,21 @@ void updateY(){
 		slope = slope *-1;
 	}
 	y += slope;
+}
+
+class Wacky{
+	int r = int(random(50,150));
+	int x;
+	int y;
+	Wacky(int x, int y){
+		this.x = x;
+		this.y = y;
+	}
+	void drawAndShrink(){
+		stroke(227,223,255);
+		circle(x,y,r);
+		if (r > 0){
+			r--;
+		}
+	}
 }
