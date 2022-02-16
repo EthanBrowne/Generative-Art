@@ -15,6 +15,7 @@ import java.io.IOException;
 
 public class Build extends PApplet {
 
+//Global Variables
 int slope = newslope();
 int y = 1000/2;
 int x = 0;
@@ -22,8 +23,11 @@ int xinc = 6;
 int oldy = y;
 int oldx = x;
 int c = xinc;
+//Colors on the line
 int [] colors = {0xFFFF0000, 0xFFFFA500, 0xFFFFFF00, 0xFF00FF00, 0xFF0000FF, 0xFFA020F0};
+//List of Wacky Objects
 ArrayList<Wacky> circleList = new ArrayList<Wacky>();
+//Setup function
  public void setup() {
 	/* size commented out by preprocessor */;
 	background(0,0,0);
