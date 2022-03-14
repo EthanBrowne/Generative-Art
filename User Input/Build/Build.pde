@@ -1,3 +1,5 @@
+PGraphics pg;
+
 float x = 450;
 float oldx = x;
 int y = 950;
@@ -5,28 +7,23 @@ float mx = 0;
 int my = 4;
 int circleX = 500;
 int circleY = 250;
-int oldCX = circleX;
-int oldCY = circleY;
 ArrayList<Wacky> circleList = new ArrayList<Wacky>();
 ArrayList<Wacky> growList = new ArrayList<Wacky>();
 
 void setup() {
 	size(1000,1000);
 	background(255,255,255);
+	pg = createGraphics(1000,1000);
 }
 
 void draw() {
+	pg.beginDraw();
 	fill(255,255,255);
-	rect(0,0,width,height,10);
+	rect(0,0,width,height);
 	collide();
-	noStroke();
-	fill(255,255,255);
-	rect(oldx,y,height/10, width/100);
-	stroke(255,255,255);
-	circle(oldCX, oldCY, 15);
 	fill(0,0,0);
 	circle(circleX, circleY, 15);
-	int r = int(random(0,31));
+	int r = int(random(0,26));
 	if (r == 0){
 		Wacky placeHolder = new Wacky(circleX+int(random(-10,11)),circleY+int(random(-10,11)));
 		circleList.add(placeHolder);
@@ -43,18 +40,17 @@ void draw() {
 	for (Wacky i: circleList){
 		i.drawAndShrink();
 	}
-	oldCX = circleX;
-	oldCY = circleY;
 	circleY += my;
 	circleX += mx;
-
+	pg.endDraw();
+	image(pg, 0, 0);
 }
 
 void collide(){
 	if(circleX > x && circleX < x+width/10 && circleY >= y){
 		my = -4;
 		mx = random(-3,3);
-		while (mx > -.5 && mx < .5){
+		while (mx > -1 && mx < 1){
 			mx = random(-3,3);
 		}
 	}else if(circleX < 0 || circleX > width){
@@ -75,7 +71,7 @@ class Wacky{
 	//color list
 	int [] colors = {#FF0000, #FFA500, #FFFF00, #00FF00, #0000FF, #A020F0};
 	//radius of circle
-	int r = int(random(15,45));
+	int r = int(random(15,60));
 	//postion values of circle
 	float x;
 	int y;
@@ -87,8 +83,8 @@ class Wacky{
 	//function that shrinks the circles radius and draws it.
 	void drawAndShrink(){
 		noFill();
-		stroke(colors[int(random(0,colors.length))]);
-		circle(x,y,r);
+		pg.stroke(colors[int(random(0,colors.length))]);
+		pg.circle(x,y,r);
 		if (r > 0){
 			r--;
 		}
