@@ -1,31 +1,32 @@
 PGraphics pg;
-
+boolean b = true;
 float x = 450;
 float oldx = x;
-int y = 950;
+float y = 950;
 float mx = 0;
 int my = 4;
-int circleX = 500;
-int circleY = 250;
+float circleX = 500;
+float circleY = 250;
 ArrayList<Wacky> circleList = new ArrayList<Wacky>();
-ArrayList<Wacky> growList = new ArrayList<Wacky>();
 
 void setup() {
+	pixelDensity(2);
 	size(1000,1000);
-	background(255,255,255);
+	background(#182030);
 	pg = createGraphics(1000,1000);
 }
 
 void draw() {
 	pg.beginDraw();
-	fill(255,255,255);
+	noStroke();
+	fill(#182030,35);
 	rect(0,0,width,height);
 	collide();
-	fill(0,0,0);
+	fill(#f9d71c);
 	circle(circleX, circleY, 15);
-	int r = int(random(0,26));
+	int r = int(random(0,8));
 	if (r == 0){
-		Wacky placeHolder = new Wacky(circleX+int(random(-10,11)),circleY+int(random(-10,11)));
+		Wacky placeHolder = new Wacky(circleX+(random(-10,10)),circleY+(random(-10,10)));
 		circleList.add(placeHolder);
 	}
 	rect(x, y, height/10, width/100);
@@ -37,13 +38,13 @@ void draw() {
 			x += 5;
 		}
 	}
-	for (Wacky i: circleList){
-		i.drawAndShrink();
-	}
+	//for (Wacky i: circleList){
+	//	i.drawAndShrink();
+	//}
 	circleY += my;
 	circleX += mx;
 	pg.endDraw();
-	image(pg, 0, 0);
+	//image(pg, 0, 0);
 }
 
 void collide(){
@@ -63,36 +64,40 @@ void collide(){
 }
 
 void respawn(){
-	circleX = 500;
-	circleY = 250;
-	mx = 0;
+	fill(#182030,35);
+	rect(0,0,width,height);
+		for (Wacky i: circleList){
+		i.drawAndShrink();
+	}
+	image(pg,0,0);
 }
 class Wacky{
 	//color list
-	int [] colors = {#FF0000, #FFA500, #FFFF00, #00FF00, #0000FF, #A020F0};
+	int [] colors = {#23C9FF,#7CC6FE, #CCD5FF, #E7BBE3, #C884A6};
 	//radius of circle
-	int r = int(random(15,60));
+	int r = int(random(15,width/2));
 	//postion values of circle
 	float x;
-	int y;
-	Wacky(float x, int y){
+	float y;
+	int w = 4;
+	int color_;
+	Wacky(float x, float y){
 		//sets postion of circle to the x and y value of the change in slope
 		this.x = x;
 		this.y = y;
+		
 	}
 	//function that shrinks the circles radius and draws it.
 	void drawAndShrink(){
-		noFill();
-		pg.stroke(colors[int(random(0,colors.length))]);
+		color_ = colors[int(random(0,colors.length))];
+		pg.strokeWeight(w);
+		pg.noFill();
+		pg.stroke(color_);
 		pg.circle(x,y,r);
-		if (r > 0){
-			r--;
+		if(r-w < 0){
+			r = 0;
+		}else if (r > 0){
+			r-=w;
 		}
-	}
-	void drawAndGrow(){
-		noFill();
-		stroke(0,0,0);
-		circle(x,y,r);
-		r++;
 	}
 }
