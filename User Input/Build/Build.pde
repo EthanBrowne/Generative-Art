@@ -70,6 +70,9 @@ void respawn(){
 		i.drawAndShrink();
 	}
 	image(pg,0,0);
+	my = 0;
+	y = 2000;
+	circleY = 3000;
 }
 class Wacky{
 	//color list
