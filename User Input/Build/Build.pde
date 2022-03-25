@@ -1,13 +1,13 @@
 PGraphics pg;
-boolean b = true;
 float x = 450;
 float oldx = x;
 float y = 950;
 float mx = 0;
-int my = 4;
+int my = 5;
 float circleX = 500;
 float circleY = 250;
 ArrayList<Wacky> circleList = new ArrayList<Wacky>();
+boolean b = true;
 
 void setup() {
 	pixelDensity(2);
@@ -22,14 +22,16 @@ void draw() {
 	fill(#182030,35);
 	rect(0,0,width,height);
 	collide();
-	fill(#f9d71c);
-	circle(circleX, circleY, 15);
-	int r = int(random(0,8));
-	if (r == 0){
-		Wacky placeHolder = new Wacky(circleX+(random(-10,10)),circleY+(random(-10,10)));
-		circleList.add(placeHolder);
+	if(b){
+		fill(#f9d71c);
+		circle(circleX, circleY, 15);
+		int r = int(random(0,8));
+		if (r == 0){
+			Wacky placeHolder = new Wacky(circleX+(random(-10,10)),circleY+(random(-10,10)));
+			circleList.add(placeHolder);
+		}
+		rect(x, y, height/10, width/100);
 	}
-	rect(x, y, height/10, width/100);
 	if(keyPressed){
 		oldx = x;
 		if(key == 'a' && x >= 0){
@@ -49,10 +51,10 @@ void draw() {
 
 void collide(){
 	if(circleX > x && circleX < x+width/10 && circleY >= y){
-		my = -4;
+		my *=-1;
 		mx = random(-3,3);
 		while (mx > -1 && mx < 1){
-			mx = random(-3,3);
+			mx = random(-1*my,my);
 		}
 	}else if(circleX < 0 || circleX > width){
 		mx = mx*-1;
@@ -71,12 +73,12 @@ void respawn(){
 	}
 	image(pg,0,0);
 	my = 0;
-	y = 2000;
-	circleY = 3000;
+	mx = 0;
+	b = false;
 }
 class Wacky{
 	//color list
-	int [] colors = {#23C9FF,#7CC6FE, #CCD5FF, #E7BBE3, #C884A6};
+	int [] colors = {#F433AB, #CB04A5, #934683, #65334D, #2D1115, #092327, #0B5351, #00A9A5, #4E8098, #90C2E7};
 	//radius of circle
 	int r = int(random(15,width/2));
 	//postion values of circle
